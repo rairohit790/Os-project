@@ -1,0 +1,174 @@
+#include<iostream>
+#include<climits>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	int p[100]={1,2,3,4,5,6,7,8,9},bt[100],wt[100]={0},ct[20]={0},tat[100]={0},at[100]={0};
+	float pri[100]={1};int n;int y=0,temp=1;fill_n(pri, 100, 1);
+	cout<<"enter the no of process you want to take :-\n";
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+		cout<<"enter the burst time for process P["<<p[i]<<"] :- ";
+		cin>>bt[i];
+    }
+   
+    cout<<"************************************************************"<<endl;
+    for(int i=0;i<n;i++)
+    {
+		for(int j=0;j<n;j++)
+		{
+			if(bt[i]<bt[j])
+			{
+				int tempo=bt[i];
+				bt[i]=bt[j];
+				bt[j]=tempo;
+				
+				tempo=p[i];
+				p[i]=p[j];
+				p[j]=tempo;
+				tempo=ct[i];
+				ct[i]=ct[j];
+				ct[j]=tempo;
+				tempo=wt[i];
+				wt[i]=wt[j];
+				wt[j]=tempo;
+				tempo=tat[i];
+				tat[i]=tat[j];
+				tat[j]=tempo;
+				float t=pri[i];
+				pri[i]=pri[j];
+				pri[j]=t;
+				
+			}
+		}
+	}
+	
+	
+	here:
+	
+	while(y<n)
+	{
+		ct[y]=ct[y]+bt[y]+wt[y];
+		tat[y]=ct[y]-at[y];
+		break;
+	}
+	y++;
+	int w=temp;
+	int hogya=bt[w-1];
+    while(w<n)
+    
+    {
+		 wt[w]=wt[w]+hogya;
+		 pri[w]=1+float(float(wt[w])/float(bt[w]));
+		 w++;
+	}	 
+	cout<<"the first "<<temp <<" process had been executed :-"<<endl;
+	
+	for(int i=temp;i<n;i++)
+	{
+		for(int j=temp;j<n;j++)
+		{
+			if(pri[i]>pri[j])
+			{
+				float d=pri[i];
+				pri[i]=pri[j];
+				pri[j]=d;
+				int tempo=p[i];
+				p[i]=p[j];
+				p[j]=tempo;
+				tempo=bt[i];
+				bt[i]=bt[j];
+				bt[j]=tempo;
+				tempo=ct[i];
+				ct[i]=ct[j];
+				ct[j]=tempo;
+				tempo=wt[i];
+				wt[i]=wt[j];
+				wt[j]=tempo;
+				tempo=tat[i];
+				tat[i]=tat[j];
+				tat[j]=tempo;
+			}
+		}
+	}
+	temp++;
+	cout<<"THE PROCESSES WITH ITS UPDATED PRIORITY"<<endl;
+			cout<<"PROCESS.NO"<<" "<<"BURST-TIME"<<"    "<<"PRIORITY"<<"      "<<"WAITING TIME"<<endl;
+
+	for(int i=0;i<n;i++)
+	{
+		cout<<p[i]<<"              "<<bt[i]<<"       "<<pri[i]<<"           "<<wt[i]<<endl;
+		 
+	}
+	cout<<"***********************************************************"<<endl;
+	
+	
+	
+	
+	float avgtat=0,avgwt=0;
+	/*for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(p[i]<p[j])
+			{
+				float d=pri[i];
+				pri[i]=pri[j];
+				pri[j]=d;
+				int tempo=p[i];
+				p[i]=p[j];
+				p[j]=tempo;
+				tempo=bt[i];
+				bt[i]=bt[j];
+				bt[j]=tempo;
+				tempo=ct[i];
+				ct[i]=ct[j];
+				ct[j]=tempo;
+				tempo=wt[i];
+				wt[i]=wt[j];
+				wt[j]=tempo;
+				tempo=tat[i];
+				tat[i]=tat[j];
+				tat[j]=tempo;
+				
+				
+			}
+		}
+	}*/
+	/*cout<<"THE PROCESSES WITH ITS UPDATED PRIORITY"<<endl;
+			cout<<"PROCESS.NO"<<" "<<"BURST TIME"<<" "<<"PRIORITY"<<"      "<<"WAITING TIME"<<endl;
+
+	for(int i=0;i<n;i++)
+	{
+		cout<<p[i]<<"              "<<bt[i]<<"       "<<pri[i]<<"           "<<wt[i]<<endl;
+		 
+	}
+	cout<<"***********************************************************"<<endl;*/
+	
+	if(temp<=n)
+	{
+		goto here;
+	}
+	
+	for(int i=0;i<n;i++)
+	{
+		avgtat=avgtat+tat[i];
+		avgwt=avgwt+wt[i];
+	}
+	avgtat=avgtat/n;
+	avgwt=avgwt/n;
+	/*for(int i=0;i<n;i++)
+	{ 
+		cout<<p[i]<<" "<<bt[i]<<"    "<<pri[i]<<"    "<<"   "<<ct[i]<<"    "<<wt[i]<<endl;
+	}
+	*/
+	cout<<"THE AVERAGE TURN AROUND TIME IS :- "<<avgtat<<endl;
+	cout<<"THE AVERAGE WAITING TIME IS :-"<<avgwt<<endl;
+		
+	
+	
+	
+	
+}
